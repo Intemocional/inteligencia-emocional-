@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inteligencia Emocional Aplicada al Entorno Diario</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --pink:       #f48cbe;
+  --pink-deep:  #e87db5;
+  --pink-light: #fde8f3;
+  --pink-pale:  #fff5fa;
+  --rose:       #f9b8d4;
+  --lavender:   #e8d5f5;
+  --lav-deep:   #c9a8e8;
+  --peach:      #fdd9c0;
+  --peach-deep: #f7b89a;
+  --mint:       #c8f0e0;
+  --mint-deep:  #7dd9b0;
+  --yellow:     #fef3c7;
+  --cream:      #fffaf7;
+  --white:      #ffffff;
+  --text:       #6b3f5e;
+  --text-soft:  #9b6f8a;
+  --text-light: #c4a0b8;
+  --border:     #f2d6e8;
+  --sidebar-w:  260px;
+  --header-h:   64px;
+}
+
+body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--text); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--pink-light); }
+::-webkit-scrollbar-thumb { background:var(--pink); border-radius:10px; }
+
+/* ── HEADER ── */
+.site-header {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  height:var(--header-h);
+  background:linear-gradient(135deg, #f9b8d4 0%, #f48cbe 50%, #e8a0d0 100%);
+  display:flex; align-items:center; padding:0 24px; gap:14px;
+  box-shadow:0 2px 16px rgba(244,140,190,0.3);
+}
+.header-logo {
+  width:38px; height:38px; border-radius:50%;
+  background:rgba(255,255,255,0.4);
+  display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;
+}
+.header-title {
+  color:var(--white); font-size:1rem; font-weight:700;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.header-authors {
+  margin-left:auto; color:rgba(255,255,255,0.9);
+  font-size:0.72rem; text-align:right; line-height:1.6; flex-shrink:0;
+}
+.menu-toggle {
+  display:none; background:none; border:none;
+  color:white; font-size:22px; cursor:pointer;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position:fixed; top:var(--header-h); left:0; bottom:0;
+  width:var(--sidebar-w); background:var(--white);
+  border-right:2px solid var(--border);
+  overflow-y:auto; z-index:90; padding:16px 0;
+}
+.sidebar-section-label {
+  font-size:0.65rem; font-weight:800; letter-spacing:2px;
+  text-transform:uppercase; color:var(--text-light);
+  padding:12px 24px 4px;
+}
+.sidebar-nav a {
+  display:flex; align-items:center; gap:10px;
+  padding:11px 24px; text-decoration:none;
+  color:var(--text-soft); font-size:0.88rem; font-weight:600;
+  border-left:3px solid transparent; transition:all 0.2s; cursor:pointer;
+}
+.sidebar-nav a:hover { background:var(--pink-light); color:var(--pink-deep); }
+.sidebar-nav a.active {
+  background:var(--pink-light); color:var(--pink-deep);
+  border-left-color:var(--pink); font-weight:700;
+}
+.sidebar-nav a .icon { font-size:16px; width:20px; text-align:center; }
+.sidebar-divider { height:1px; background:var(--border); margin:8px 16px; }
+
+/* ── MAIN ── */
+.main { margin-left:var(--sidebar-w); margin-top:var(--header-h); min-height:calc(100vh - var(--header-h)); }
+.page { display:none; }
+.page.active { display:block; }
+
+/* ── BANNERS ── */
+.banner {
+  width:100%; min-height:280px;
+  display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end;
+  padding:48px 56px; position:relative; overflow:hidden;
+}
+.banner-inicio  { background:linear-gradient(135deg,#f9b8d4,#f48cbe,#e8c5f0); }
+.banner-bienvenida { background:linear-gradient(135deg,#fdd9c0,#f9b8d4,#f48cbe); }
+.banner-agenda  { background:linear-gradient(135deg,#e8d5f5,#c9a8e8,#f48cbe); }
+.banner-mod1    { background:linear-gradient(135deg,#fde8f3,#f9b8d4,#f48cbe); }
+.banner-mod2    { background:linear-gradient(135deg,#fdd9c0,#f9b8d4,#c9a8e8); }
+.banner-mod3    { background:linear-gradient(135deg,#c8f0e0,#f9b8d4,#e8d5f5); }
+.banner-refs    { background:linear-gradient(135deg,#fef3c7,#fdd9c0,#f9b8d4); }
+
+.banner::before {
+  content:attr(data-emoji);
+  position:absolute; right:60px; bottom:-10px;
+  font-size:160px; opacity:0.15; line-height:1;
+}
+.banner-tag {
+  background:rgba(255,255,255,0.5); backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.7);
+  border-radius:50px; padding:4px 16px;
+  color:var(--text); font-size:0.72rem; font-weight:700;
+  letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px;
+}
+.banner h1 {
+  font-family:'Lora',serif; font-size:clamp(1.6rem,2.8vw,2.6rem);
+  color:var(--text); font-weight:600; line-height:1.25; max-width:580px; margin-bottom:10px;
+}
+.banner p { color:var(--text-soft); font-size:0.95rem; max-width:520px; line-height:1.65; }
+
+/* ── CONTENT ── */
+.content { max-width:920px; margin:0 auto; padding:44px 56px; }
+@media(max-width:768px){ .content{padding:28px 20px;} .banner{padding:32px 20px;} }
+
+/* ── SECTION LABELS & TITLES ── */
+.section-label {
+  font-size:0.7rem; font-weight:800; letter-spacing:2px;
+  text-transform:uppercase; color:var(--pink-deep); margin-bottom:6px; display:block;
+}
+.section-title {
+  font-family:'Lora',serif; font-size:1.4rem; color:var(--text);
+  margin:32px 0 16px; padding-bottom:10px;
+  border-bottom:2px solid var(--pink-light);
+}
+
+/* ── WELCOME BOX ── */
+.welcome-box {
+  background:var(--white); border-radius:16px;
+  border:1.5px solid var(--border); padding:28px 32px;
+  margin:24px 0;
+}
+.welcome-box h2 { font-family:'Lora',serif; font-size:1.3rem; color:var(--text); margin-bottom:14px; }
+.welcome-box p  { color:var(--text-soft); line-height:1.85; margin-bottom:10px; font-size:0.93rem; }
+.welcome-box p:last-child { margin-bottom:0; }
+
+/* ── OBJETIVO BOX ── */
+.objetivo-box {
+  background:var(--pink-light); border:1.5px solid var(--rose);
+  border-radius:14px; padding:20px 24px;
+  margin:24px 0; display:flex; gap:14px; align-items:flex-start;
+}
+.objetivo-box .obj-icon { font-size:26px; flex-shrink:0; margin-top:2px; }
+.objetivo-box p { font-size:0.91rem; line-height:1.75; color:var(--text); }
+
+/* ── CARDS GRID ── */
+.cards-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:14px; margin:24px 0;
+}
+.nav-card {
+  border:1.5px solid var(--border); border-radius:16px;
+  padding:24px 18px; text-align:center; cursor:pointer;
+  transition:all 0.2s; text-decoration:none; color:var(--text);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  background:var(--white);
+}
+.nav-card:hover { border-color:var(--pink); box-shadow:0 6px 24px rgba(244,140,190,0.2); transform:translateY(-3px); }
+.nav-card .card-icon {
+  width:52px; height:52px; border-radius:50%;
+  background:var(--pink-light); display:flex; align-items:center; justify-content:center; font-size:22px;
+}
+.nav-card h3 { font-size:0.92rem; font-weight:700; color:var(--text); }
+.nav-card p  { font-size:0.78rem; color:var(--text-soft); line-height:1.5; }
+
+/* ── CONTENT CARDS ── */
+.content-cards {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:14px; margin:16px 0;
+}
+.content-card {
+  border:1.5px solid var(--border); border-radius:14px;
+  padding:22px; background:var(--white); transition:box-shadow 0.2s;
+}
+.content-card:hover { box-shadow:0 4px 20px rgba(244,140,190,0.15); }
+.content-card .subtag {
+  font-size:0.65rem; font-weight:800; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--pink-deep); margin-bottom:8px; display:block;
+}
+.content-card h4 { font-family:'Lora',serif; font-size:1rem; color:var(--text); margin-bottom:9px; }
+.content-card p  { font-size:0.86rem; color:var(--text-soft); line-height:1.75; }
+
+/* ── COLOR ACCENT CARDS ── */
+.card-peach { background:var(--peach); border-color:var(--peach-deep); }
+.card-lavender { background:var(--lavender); border-color:var(--lav-deep); }
+.card-mint { background:var(--mint); border-color:var(--mint-deep); }
+.card-rose { background:var(--pink-light); border-color:var(--rose); }
+
+/* ── VIDEO LINKS ── */
+.video-link-btn {
+  display:flex; align-items:center; gap:12px;
+  border:1.5px solid var(--border); border-radius:12px;
+  padding:13px 18px; text-decoration:none; color:var(--text);
+  background:var(--white); margin:8px 0; transition:all 0.2s; font-size:0.88rem; font-weight:600;
+}
+.video-link-btn:hover { border-color:var(--pink); background:var(--pink-light); }
+.video-link-btn .vplay {
+  width:34px; height:34px; border-radius:50%;
+  background:var(--pink); color:white;
+  display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0;
+}
+
+/* ── CHIPS ── */
+.chips-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+.chip {
+  border-radius:50px; padding:8px 18px;
+  font-size:0.8rem; font-weight:700;
+  background:var(--lavender); color:var(--text);
+}
+.chip.pink { background:var(--rose); }
+.chip.peach { background:var(--peach); }
+.chip.mint { background:var(--mint); }
+
+/* ── AGENDA TABLE ── */
+.agenda-table {
+  width:100%; border-collapse:collapse; margin:20px 0;
+  border-radius:14px; overflow:hidden; border:1.5px solid var(--border);
+}
+.agenda-table th {
+  background:var(--pink); color:var(--white);
+  padding:13px 18px; text-align:left; font-size:0.83rem; font-weight:700;
+}
+.agenda-table td {
+  padding:12px 18px; font-size:0.88rem; border-bottom:1px solid var(--border); color:var(--text-soft);
+}
+.agenda-table tr:last-child td { border-bottom:none; }
+.agenda-table tr:nth-child(even) td { background:var(--pink-pale); }
+.agenda-table tr:hover td { background:var(--pink-light); }
+.badge-pill {
+  display:inline-block; background:var(--pink-light); color:var(--pink-deep);
+  border-radius:50px; padding:2px 12px; font-size:0.75rem; font-weight:700;
+}
+
+/* ── TEAM ── */
+.team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin:20px 0; }
+.team-card { border:1.5px solid var(--border); border-radius:16px; padding:26px 18px; text-align:center; background:var(--white); }
+.team-avatar {
+  width:68px; height:68px; border-radius:50%;
+  background:linear-gradient(135deg,var(--rose),var(--pink));
+  display:flex; align-items:center; justify-content:center;
+  font-size:26px; margin:0 auto 14px;
+}
+.team-card h3 { font-size:0.92rem; font-weight:700; color:var(--text); }
+
+/* ── MOD BIG NUM ── */
+.mod-big-num {
+  position:absolute; right:40px; bottom:-20px;
+  font-size:160px; font-weight:800; color:rgba(255,255,255,0.2);
+  font-family:'Nunito',sans-serif; line-height:1; user-select:none;
+}
+
+/* ── INFO BLOCK ── */
+.info-block {
+  background:var(--yellow); border:1.5px solid #f6e090;
+  border-radius:14px; padding:18px 22px; margin:16px 0;
+  font-size:0.88rem; color:var(--text); line-height:1.75;
+}
+.info-block strong { color:var(--text); }
+
+/* ── QUOTE ── */
+.quote-block {
+  border-left:4px solid var(--pink);
+  background:var(--pink-pale); border-radius:0 12px 12px 0;
+  padding:16px 22px; margin:16px 0;
+  font-style:italic; font-size:0.91rem; color:var(--text-soft); line-height:1.8;
+}
+
+/* ── FOOTER ── */
+.site-footer {
+  margin-left:var(--sidebar-w); background:var(--rose);
+  color:var(--text); text-align:center;
+  padding:28px; font-size:0.83rem; line-height:1.9;
+}
+.site-footer strong { font-weight:700; }
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  .menu-toggle { display:block; }
+  .sidebar { transform:translateX(-100%); transition:transform 0.3s; }
+  .sidebar.open { transform:translateX(0); box-shadow:4px 0 20px rgba(0,0,0,0.15); }
+  .main,.site-footer { margin-left:0; }
+  .banner { min-height:220px; }
+  .header-authors { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  <div class="header-logo">🌸</div>
+  <div class="header-title">Inteligencia Emocional Aplicada al Entorno Diario</div>
+  <div class="header-authors">Aurora Carrillo · Ivonne Soteno · Danna Mendoza</div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-nav">
+    <div class="sidebar-section-label">General</div>
+    <a onclick="showPage('inicio')" class="active" id="nav-inicio"><span class="icon">🏠</span> Inicio</a>
+    <a onclick="showPage('bienvenida')" id="nav-bienvenida"><span class="icon">👋</span> Bienvenida</a>
+    <a onclick="showPage('agenda')" id="nav-agenda"><span class="icon">📅</span> Agenda del Curso</a>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Módulos</div>
+    <a onclick="showPage('modulo1')" id="nav-modulo1"><span class="icon">🧠</span> Módulo 1</a>
+    <a onclick="showPage('modulo2')" id="nav-modulo2"><span class="icon">💆</span> Módulo 2</a>
+    <a onclick="showPage('modulo3')" id="nav-modulo3"><span class="icon">🤝</span> Módulo 3</a>
+    <div class="sidebar-divider"></div>
+    <a onclick="showPage('referencias')" id="nav-referencias"><span class="icon">📚</span> Referencias</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ═══ INICIO ═══ -->
+<div class="page active" id="page-inicio">
+  <div class="banner banner-inicio" data-emoji="🌸">
+    <div class="banner-tag">🌸 Taller · 2026</div>
+    <h1>Inteligencia Emocional Aplicada al Entorno Diario</h1>
+    <p>Un espacio para identificar, comprender y regular tus emociones y mejorar tu bienestar y relaciones personales.</p>
+  </div>
+  <div class="content">
+    <div class="team-grid">
+      <div class="team-card"><div class="team-avatar">👩</div><h3>Aurora Carrillo García</h3></div>
+      <div class="team-card"><div class="team-avatar">👩</div><h3>Ivonne Zaireth Soteno Mejia</h3></div>
+      <div class="team-card"><div class="team-avatar">👩</div><h3>Danna Guadalupe Mendoza Hernández</h3></div>
+    </div>
+    <span class="section-label">Navega el curso</span>
+    <div class="cards-grid">
+      <div class="nav-card" onclick="showPage('bienvenida')"><div class="card-icon">👋</div><h3>Bienvenida</h3><p>Presentación y objetivo del taller</p></div>
+      <div class="nav-card" onclick="showPage('agenda')"><div class="card-icon">📅</div><h3>Agenda</h3><p>Actividades y plazos</p></div>
+      <div class="nav-card" onclick="showPage('modulo1')"><div class="card-icon">🧠</div><h3>Módulo 1</h3><p>Reconocimiento Emocional</p></div>
+      <div class="nav-card" onclick="showPage('modulo2')"><div class="card-icon">💆</div><h3>Módulo 2</h3><p>Regulación Emocional</p></div>
+      <div class="nav-card" onclick="showPage('modulo3')"><div class="card-icon">🤝</div><h3>Módulo 3</h3><p>Relaciones Interpersonales</p></div>
+      <div class="nav-card" onclick="showPage('referencias')"><div class="card-icon">📚</div><h3>Referencias</h3><p>Fuentes bibliográficas</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BIENVENIDA ═══ -->
+<div class="page" id="page-bienvenida">
+  <div class="banner banner-bienvenida" data-emoji="💌">
+    <div class="banner-tag">Presentación</div>
+    <h1>Bienvenida al Taller</h1>
+    <p>Conoce el propósito y al equipo detrás de este espacio de aprendizaje.</p>
+  </div>
+  <div class="content">
+    <div class="welcome-box">
+      <h2>¡Bienvenido! 🌷</h2>
+      <p>Bienvenido al taller <strong>"Inteligencia Emocional Aplicada al Entorno Diario"</strong>. Este espacio ha sido diseñado para que logres identificar, comprender y regular tus emociones, mejorando así tu bienestar y tus relaciones personales.</p>
+      <p>A continuación encontrarás el desarrollo detallado de los contenidos. Por favor, sigue la secuencia de lectura y presta atención a las notas de actividades y materiales de apoyo que deberás consultar en la plataforma.</p>
+    </div>
+
+    <span class="section-label">Video de apertura</span>
+    <h2 class="section-title">Comencemos juntos 🎬</h2>
+    <a href="https://www.youtube.com/watch?v=KvpsjJOpPoQ" target="_blank" class="video-link-btn">
+      <span class="vplay">▶</span>
+      <span><strong>Video introductorio</strong> — Inteligencia Emocional</span>
+    </a>
+
+    <h2 class="section-title">Evaluación Diagnóstica 📋</h2>
+    <div class="info-block">
+      💡 Antes de comenzar con el contenido de los módulos, realiza la <strong>Evaluación Diagnóstica</strong> disponible en la plataforma. Esta evaluación nos permitirá conocer tus conocimientos previos sobre inteligencia emocional y adaptar mejor el proceso de aprendizaje.
+    </div>
+
+    <h2 class="section-title">Nuestro equipo 🌸</h2>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-avatar">👩</div><h3>Aurora Carrillo García</h3></div>
+      <div class="team-card"><div class="team-avatar">👩</div><h3>Ivonne Zaireth Soteno Mejia</h3></div>
+      <div class="team-card"><div class="team-avatar">👩</div><h3>Danna Guadalupe Mendoza Hernández</h3></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AGENDA ═══ -->
+<div class="page" id="page-agenda">
+  <div class="banner banner-agenda" data-emoji="📅">
+    <div class="banner-tag">Planificación</div>
+    <h1>Agenda del Curso</h1>
+    <p>Actividades, valor asignado y plazos que deberás cumplir a lo largo del taller.</p>
+  </div>
+  <div class="content">
+    <div class="welcome-box">
+      <h2>¿Cómo está organizado el curso? 🗓️</h2>
+      <p>El taller se estructura en tres módulos progresivos, cada uno con sus propias actividades de aprendizaje y cierre. Sigue el orden indicado para aprovechar al máximo la experiencia formativa.</p>
+    </div>
+    <span class="section-label">Actividades y plazos</span>
+    <table class="agenda-table">
+      <thead>
+        <tr><th>#</th><th>Actividad</th><th>Módulo</th><th>Plazo</th><th>Valor</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Evaluación Diagnóstica</td><td><span class="badge-pill">Inicio</span></td><td>Semana 1</td><td>Diagnóstico</td></tr>
+        <tr><td>2</td><td>Actividad de Aprendizaje 1</td><td><span class="badge-pill">Módulo 1</span></td><td>Semana 2</td><td>20 pts</td></tr>
+        <tr><td>3</td><td>Actividad de Aprendizaje 2</td><td><span class="badge-pill">Módulo 1</span></td><td>Semana 3</td><td>20 pts</td></tr>
+        <tr><td>4</td><td>Cierre de Módulo 1</td><td><span class="badge-pill">Módulo 1</span></td><td>Semana 3</td><td>10 pts</td></tr>
+        <tr><td>5</td><td>Actividad de Aprendizaje 1</td><td><span class="badge-pill">Módulo 2</span></td><td>Semana 4</td><td>20 pts</td></tr>
+        <tr><td>6</td><td>Actividad de Aprendizaje 2</td><td><span class="badge-pill">Módulo 2</span></td><td>Semana 5</td><td>20 pts</td></tr>
+        <tr><td>7</td><td>Cierre de Módulo 2</td><td><span class="badge-pill">Módulo 2</span></td><td>Semana 5</td><td>10 pts</td></tr>
+        <tr><td>8</td><td>Actividad de Aprendizaje 1</td><td><span class="badge-pill">Módulo 3</span></td><td>Semana 6</td><td>20 pts</td></tr>
+        <tr><td>9</td><td>Actividad de Aprendizaje 2</td><td><span class="badge-pill">Módulo 3</span></td><td>Semana 6</td><td>20 pts</td></tr>
+        <tr><td>10</td><td>🏆 Actividad de Cierre de Curso</td><td><span class="badge-pill">Cierre</span></td><td>Semana 7</td><td>40 pts</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ MÓDULO 1 ═══ -->
+<div class="page" id="page-modulo1">
+  <div class="banner banner-mod1" data-emoji="🧠">
+    <span class="mod-big-num">1</span>
+    <div class="banner-tag">Módulo 1</div>
+    <h1>Reconocimiento Emocional y Autoconocimiento</h1>
+    <p>Identificar las emociones y su influencia en la vida cotidiana</p>
+  </div>
+  <div class="content">
+    <div class="objetivo-box">
+      <div class="obj-icon">🎯</div>
+      <p><strong>Objetivo:</strong> Identificar las emociones y su influencia en la vida cotidiana mediante ejercicios de autorreflexión emocional, con el fin de fortalecer el autoconocimiento emocional y las habilidades socioemocionales.</p>
+    </div>
+
+    <div class="welcome-box">
+      <p>En este primer módulo se abordará el reconocimiento emocional y el autoconocimiento como bases fundamentales para el desarrollo de la inteligencia emocional. A lo largo de las actividades identificarás las principales emociones que experimentas en tu vida cotidiana, así como la manera en que estas influyen en tus pensamientos, conductas y relaciones interpersonales.</p>
+      <p>Asimismo, se analizará el concepto de inteligencia emocional y su importancia en distintos contextos de la vida diaria, especialmente en situaciones relacionadas con el estrés, la convivencia familiar, escolar y social. También se revisarán las emociones básicas y sus diferentes manifestaciones fisiológicas y conductuales, permitiendo que aprendas a reconocer señales emocionales en ti mismo y en los demás.</p>
+      <p>Finalmente, el módulo promoverá ejercicios de autorreflexión orientados al autoconocimiento emocional, con el propósito de que identifiques los factores que influyen en tus respuestas emocionales y desarrolles estrategias más adecuadas para su manejo en la vida cotidiana.</p>
+    </div>
+
+    <span class="section-label">1.1 · Inteligencia Emocional</span>
+    <h2 class="section-title">Concepto de Inteligencia Emocional</h2>
+    <div class="content-cards">
+      <div class="content-card card-rose">
+        <span class="subtag">1.1.1 · Concepto</span>
+        <h4>¿Qué es?</h4>
+        <p>La salud mental y emocional implica que el individuo sea consciente de sus propias capacidades para afrontar las tensiones normales de la vida. La inteligencia emocional se define como la <strong>capacidad de reconocer nuestros propios sentimientos y los de los demás</strong>, motivarnos y manejar adecuadamente las relaciones.</p>
+        <p style="margin-top:10px;">Puede entenderse como la capacidad de reconocer, aceptar y regular las emociones de manera constante, considerando la influencia que estas tienen en las decisiones y acciones cotidianas, incluso cuando no se es plenamente consciente de ello (Arrabal Martín, 2018).</p>
+      </div>
+      <div class="content-card card-peach">
+        <span class="subtag">1.1.2 · Importancia</span>
+        <h4>¿Por qué importa en la vida diaria?</h4>
+        <p>Desarrollar estas habilidades es determinante para el éxito y la cohesión social. En un entorno con alta carga académica o estrés, la inteligencia emocional permite <strong>prevenir conductas de riesgo</strong> y mejorar el clima familiar y escolar.</p>
+        <p style="margin-top:10px;">Diversos estudios han demostrado que una persona con un elevado nivel de IE puede tomar decisiones más adecuadas que alguien con mayor coeficiente intelectual. Daniel Goleman considera que la IE es una de las herramientas más importantes para la toma de decisiones (Arrabal Martín, 2018).</p>
+      </div>
+    </div>
+
+    <a href="https://www.youtube.com/watch?v=vkhmTQ1PFbo" target="_blank" class="video-link-btn">
+      <span class="vplay">▶</span><span><strong>Material de Apoyo 1.1:</strong> Video — Inteligencia Emocional (YouTube)</span>
+    </a>
+
+    <span class="section-label" style="margin-top:36px">1.2 · Emociones Básicas</span>
+    <h2 class="section-title">Identificación y Manifestaciones Emocionales</h2>
+    <div class="welcome-box">
+      <p>Las emociones pueden entenderse como <strong>impulsos que predisponen a la acción</strong>, funcionando como respuestas automáticas moldeadas por la evolución. El término emoción proviene del latín <em>movere</em> (mover) y el prefijo <em>e-</em> (hacia), lo que sugiere una tendencia inherente al movimiento o a la acción (Goleman, 1995).</p>
+    </div>
+    <div class="content-cards">
+      <div class="content-card card-lavender">
+        <span class="subtag">1.2.1 · Identificación</span>
+        <h4>El primer paso: Reconocer</h4>
+        <p>El primer paso es identificar y etiquetar correctamente lo que sentimos (alegría, tristeza, enojo, miedo, etc.) ante diversos estímulos externos. Sin reconocimiento no hay regulación posible.</p>
+      </div>
+      <div class="content-card card-mint">
+        <span class="subtag">1.2.2 · Manifestaciones</span>
+        <h4>¿Cómo se expresan las emociones?</h4>
+        <p>Las emociones se manifiestan de forma <strong>fisiológica</strong> (palpitaciones, sudoración, tensión muscular) y <strong>conductual</strong> (expresiones faciales, tono de voz, postura corporal). Aprender a leer estas señales es clave para el autoconocimiento.</p>
+      </div>
+    </div>
+
+    <span class="section-label" style="margin-top:36px">1.3 · Autoconocimiento Emocional</span>
+    <h2 class="section-title">Conocerte a ti mismo</h2>
+    <div class="welcome-box">
+      <p>El autoconocimiento emocional consiste en <strong>observar y analizar lo que sentimos de forma consciente</strong>. Aunque parezca un proceso básico, solemos tener un vacío enorme en nuestra comprensión interna.</p>
+      <p>Generalmente nos limitamos a reconocer un malestar superficial sin entender cómo este altera nuestro juicio o nuestras decisiones a largo plazo. De hecho, a menudo ni siquiera nos damos cuenta de que estamos bajo el efecto de una emoción negativa hasta que ya ha afectado nuestro comportamiento (Arrabal Martín, 2018).</p>
+    </div>
+    <div class="quote-block">
+      "La inteligencia emocional constituye una de las herramientas más importantes para la toma de decisiones en distintos ámbitos de la vida." — Daniel Goleman
+    </div>
+
+    <h2 class="section-title">Actividades del Módulo 📝</h2>
+    <div class="chips-row">
+      <span class="chip pink">📋 Evaluación Diagnóstica</span>
+      <span class="chip">📝 Actividad de Aprendizaje 1</span>
+      <span class="chip">📝 Actividad de Aprendizaje 2</span>
+      <span class="chip mint">✅ Cierre de Módulo</span>
+    </div>
+
+    <div class="cards-grid" style="margin-top:36px">
+      <div class="nav-card" onclick="showPage('modulo2')"><div class="card-icon">💆</div><h3>Siguiente → Módulo 2</h3><p>Regulación Emocional</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MÓDULO 2 ═══ -->
+<div class="page" id="page-modulo2">
+  <div class="banner banner-mod2" data-emoji="💆">
+    <span class="mod-big-num">2</span>
+    <div class="banner-tag">Módulo 2</div>
+    <h1>Regulación Emocional en Situaciones Cotidianas</h1>
+    <p>Estrategias prácticas para afrontar el estrés y la frustración</p>
+  </div>
+  <div class="content">
+    <div class="objetivo-box">
+      <div class="obj-icon">🎯</div>
+      <p><strong>Objetivo:</strong> Aplicar estrategias básicas de regulación emocional a través de actividades de reflexión y práctica emocional, con el fin de afrontar situaciones que afecten el bienestar y el balance emocional.</p>
+    </div>
+
+    <div class="welcome-box">
+      <p>En este segundo módulo se abordará de forma exhaustiva la <strong>regulación emocional</strong> como una herramienta práctica, dinámica e indispensable para consolidar el equilibrio psíquico y relacional en la vida diaria. A diferencia del Módulo 1, centrado en el descubrimiento del self, este módulo impulsa la movilización de recursos personales hacia metas adaptativas de estabilidad y resiliencia.</p>
+      <p>A lo largo de las actividades, los participantes lograrán diferenciar los mecanismos de control rígido de aquellos orientados a una modulación activa y adaptativa de sus estados afectivos. Las emociones no deben ser extirpadas ni bloqueadas, sino inteligentemente canalizadas.</p>
+      <p>Asimismo, se examinarán las implicaciones del estrés cotidiano y cómo la tolerancia a la frustración actúa como elemento protector que previene conductas de riesgo en el ámbito escolar, familiar y social. Finalmente, se integrarán estrategias corporales y cognitivas concretas de fácil asimilación.</p>
+    </div>
+
+    <span class="section-label">2.1 · Regulación Emocional</span>
+    <h2 class="section-title">Concepto y diferencias clave</h2>
+    <div class="content-cards">
+      <div class="content-card card-rose">
+        <span class="subtag">2.1.1 · Concepto</span>
+        <h4>¿Qué es la Regulación Emocional?</h4>
+        <p>Conjunto de procesos <strong>intrínsecos y extrínsecos</strong> responsables de monitorizar, evaluar y modificar la intensidad, duración y trayectoria de las reacciones afectivas con la finalidad de cumplir metas individuales o ajustarse a las demandas del entorno.</p>
+        <p style="margin-top:10px;">El modelo de proceso (Gross, 2014) señala que este fenómeno puede operar de forma consciente o automática, actuando en diversos puntos de la generación de la emoción, desde la selección inicial de situaciones hasta el cambio de la respuesta fisiológica final.</p>
+      </div>
+      <div class="content-card card-lavender">
+        <span class="subtag">2.1.2 · Controlar vs Regular</span>
+        <h4>¿Cuál es la diferencia?</h4>
+        <p><strong>Controlar</strong> implica supresión pasiva, bloqueo punitivo y contención rígida. Tiene un costo fisiológico severo: incrementa la activación del sistema nervioso autónomo y menoscaba la memoria de trabajo, generando a largo plazo brotes psicofisiológicos.</p>
+        <p style="margin-top:10px;"><strong>Regular</strong> implica aceptar la validez de la emoción emergente como dato informativo vital, modificando únicamente la expresión externa de modo que resulte constructiva para la persona y su entorno social (Gross, 2014).</p>
+      </div>
+    </div>
+
+    <a href="https://youtu.be/F76OyeVLF64" target="_blank" class="video-link-btn">
+      <span class="vplay">▶</span><span><strong>Material de Apoyo 2.1:</strong> Tres formas de controlar tus emociones — Mariano Sigman (BBVA)</span>
+    </a>
+
+    <span class="section-label" style="margin-top:36px">2.2 · Estrés y Frustración</span>
+    <h2 class="section-title">Tolerancia a la Frustración</h2>
+    <div class="content-cards">
+      <div class="content-card card-peach">
+        <span class="subtag">2.2.1 · Tolerancia</span>
+        <h4>¿Qué es la tolerancia a la frustración?</h4>
+        <p>Capacidad medular de la IE que permite <strong>amortiguar el impacto del fracaso</strong>, el retraso de gratificaciones, las barreras del entorno o los contratiempos sin detonar respuestas desadaptativas ni abandono prematuro de metas. Se vincula íntimamente con la flexibilidad cognitiva y la resiliencia.</p>
+        <p style="margin-top:10px;">Desarrollar un umbral sano de tolerancia implica reestructurar las creencias irracionales de demanda absoluta (<em>'todo debe salir como yo quiero'</em>) y sustituirlas por un enfoque de aceptación activa y búsqueda estratégica de alternativas (Bisquerra, 2009).</p>
+      </div>
+    </div>
+
+    <span class="section-label" style="margin-top:36px">2.3 · Estrategias Emocionales</span>
+    <h2 class="section-title">Herramientas prácticas</h2>
+    <div class="content-cards">
+      <div class="content-card card-mint">
+        <span class="subtag">2.3.1 · Respiración Consciente</span>
+        <h4>El freno biológico 🌬️</h4>
+        <p>Consiste en <strong>modular deliberadamente el patrón respiratorio</strong> para propiciar la desactivación del sistema nervioso simpático. La respiración diafragmática activa el nervio vago, induciendo calma y reduciendo la frecuencia cardíaca y el cortisol en cuestión de minutos.</p>
+        <p style="margin-top:10px;">La instauración de la <strong>respiración rítmica (técnica 4-7-8)</strong> opera como un freno de mano biológico indispensable para devolver la supremacía ejecutiva a la corteza prefrontal (Bisquerra, 2009).</p>
+      </div>
+      <div class="content-card card-lavender">
+        <span class="subtag">2.3.2 · Técnicas de Autorregulación</span>
+        <h4>Repertorio de herramientas 🛠️</h4>
+        <p>Las principales técnicas incluyen:</p>
+        <p style="margin-top:8px;">• <strong>Reevaluación cognitiva:</strong> modificar el significado atribuido al estímulo.</p>
+        <p>• <strong>Tiempo fuera estratégico:</strong> distanciamiento temporal de la situación detonante.</p>
+        <p>• <strong>Etiquetado emocional preciso:</strong> verbalizar la emoción para disminuir su impacto subcortical (Rosenberg, 2013).</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Actividades del Módulo 📝</h2>
+    <div class="chips-row">
+      <span class="chip">📝 Actividad de Aprendizaje 1</span>
+      <span class="chip">📝 Actividad de Aprendizaje 2</span>
+      <span class="chip mint">✅ Cierre de Módulo</span>
+    </div>
+
+    <div class="cards-grid" style="margin-top:36px">
+      <div class="nav-card" onclick="showPage('modulo1')"><div class="card-icon">🧠</div><h3>← Módulo 1</h3><p>Reconocimiento Emocional</p></div>
+      <div class="nav-card" onclick="showPage('modulo3')"><div class="card-icon">🤝</div><h3>Módulo 3 →</h3><p>Relaciones Interpersonales</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MÓDULO 3 ═══ -->
+<div class="page" id="page-modulo3">
+  <div class="banner banner-mod3" data-emoji="🤝">
+    <span class="mod-big-num">3</span>
+    <div class="banner-tag">Módulo 3</div>
+    <h1>Inteligencia Emocional y Relaciones Interpersonales</h1>
+    <p>Comunicación emocional, empatía y bienestar colectivo</p>
+  </div>
+  <div class="content">
+    <div class="objetivo-box">
+      <div class="obj-icon">🎯</div>
+      <p><strong>Objetivo:</strong> Fortalecer habilidades de comunicación emocional y empatía mediante actividades de interacción y reflexión emocional, con el fin de mantener vínculos y situaciones emocionales de manera regulada.</p>
+    </div>
+
+    <div class="welcome-box">
+      <p>En este tercer y último módulo se abordará la transición de la inteligencia <em>intrapersonal</em> hacia la <strong>inteligencia interpersonal y el bienestar colectivo</strong>. Desarrollarás competencias clave para expresar tus estados afectivos de manera clara y respetuosa, y así poder mantener vínculos de manera regulada.</p>
+      <p>Asimismo, se profundizará en la empatía y la escucha activa como herramientas determinantes para la resolución pacífica de conflictos en los ámbitos familiar, escolar, social y laboral. Al ser el módulo de cierre, se buscará la consolidación de hábitos emocionales saludables para la aplicación sostenible de la IE en tu vida diaria.</p>
+    </div>
+
+    <span class="section-label">3.1 · Comunicación Emocional</span>
+    <h2 class="section-title">Expresión Asertiva y Escucha Activa</h2>
+    <div class="content-cards">
+      <div class="content-card card-rose">
+        <span class="subtag">3.1.1 · Expresión Asertiva</span>
+        <h4>Hablar desde el "Yo" 💬</h4>
+        <p>La expresión asertiva consiste en manifestar de manera <strong>clara, honesta y oportuna</strong> lo que sentimos, pensamos o necesitamos, respetando tanto nuestros derechos como los de los demás.</p>
+        <p style="margin-top:8px;">Las personas caen en extremos disfuncionales: la <em>pasividad</em> (reprimir la emoción por temor al conflicto) o la <em>agresividad</em> (descargar la emoción atacando al interlocutor). La asertividad emocional actúa como puente intermedio usando frases en primera persona: <strong>"Yo me siento..."</strong> en lugar de "Tú me haces sentir..." (Naranjo Pereira, 2008).</p>
+      </div>
+      <div class="content-card card-peach">
+        <span class="subtag">3.1.2 · Escucha Activa</span>
+        <h4>Más que solo oír 👂</h4>
+        <p>La escucha activa trasciende el acto biológico de oír; implica un <strong>esfuerzo consciente, cognitivo y empático</strong> por comprender la totalidad del mensaje, tanto en su dimensión verbal como emocional.</p>
+        <p style="margin-top:8px;">Sus componentes incluyen el <strong>parafraseo</strong> (repetir con tus propias palabras lo entendido) y el <strong>reflejo empático</strong> (validar la emoción del otro: "Veo que esta situación te hace sentir frustrado"). Esta práctica genera un clima de seguridad psicológica indispensable para la confianza (García-López, 2018).</p>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <a href="https://youtu.be/WbWQe6-74OY" target="_blank" class="video-link-btn">
+        <span class="vplay">▶</span><span><strong>Material de Apoyo 3.1a:</strong> Video — Escucha Activa</span>
+      </a>
+      <a href="https://youtu.be/ZgmSfdE2y-s" target="_blank" class="video-link-btn">
+        <span class="vplay">▶</span><span><strong>Material de Apoyo 3.1b:</strong> Video — Comunicación Emocional</span>
+      </a>
+    </div>
+
+    <span class="section-label" style="margin-top:36px">3.2 · Empatía y Relaciones</span>
+    <h2 class="section-title">Convivencia y Resolución de Conflictos</h2>
+    <div class="content-cards">
+      <div class="content-card card-lavender">
+        <span class="subtag">3.2.1 · Empatía</span>
+        <h4>El pegamento social 💜</h4>
+        <p>La empatía es la capacidad de <strong>identificarse con el otro y compartir sus sentimientos</strong>, comprendiendo la realidad ajena desde su propia perspectiva. Se divide en:</p>
+        <p style="margin-top:8px;">• <strong>Empatía cognitiva:</strong> adoptar intelectualmente el punto de vista del otro.</p>
+        <p>• <strong>Empatía afectiva:</strong> sintonizar emocionalmente con el estado del prójimo.</p>
+        <p style="margin-top:8px;">En la convivencia cotidiana, la empatía humaniza las conductas ajenas, reduce la exclusión y promueve conductas prosociales de apoyo mutuo (López et al., 2014).</p>
+      </div>
+      <div class="content-card card-mint">
+        <span class="subtag">3.2.2 · Resolución de Conflictos</span>
+        <h4>De ganar-perder a ganar-ganar 🕊️</h4>
+        <p>El conflicto es inevitable en las relaciones humanas, pero su desenlace depende del manejo emocional de las partes. La resolución emocional implica aplicar la regulación para evitar el "secuestro amigdalino".</p>
+        <p style="margin-top:8px;">En lugar de abordar el conflicto como competencia de suma cero, se usa la IE para <strong>identificar necesidades insatisfechas</strong> subyacentes, facilitando la negociación colaborativa y la creatividad orientada a soluciones compartidas (Redorta, 2007).</p>
+      </div>
+    </div>
+
+    <a href="https://youtu.be/gyH3lJfxC9U" target="_blank" class="video-link-btn">
+      <span class="vplay">▶</span><span><strong>Material de Apoyo 3.2:</strong> Video — Resolución Emocional de Conflictos</span>
+    </a>
+
+    <span class="section-label" style="margin-top:36px">3.3 · Bienestar Emocional Cotidiano</span>
+    <h2 class="section-title">Hábitos para toda la vida 🌱</h2>
+    <div class="content-cards">
+      <div class="content-card card-peach">
+        <span class="subtag">3.3.1 · Hábitos Saludables</span>
+        <h4>Cultivar el bienestar emocional</h4>
+        <p>El bienestar emocional no es un estado estático, sino una <strong>práctica dinámica</strong> que se cultiva con hábitos consistentes:</p>
+        <p style="margin-top:8px;">• Práctica diaria de la <strong>gratitud</strong></p>
+        <p>• Mantenimiento de <strong>redes de apoyo</strong> sólidas</p>
+        <p>• Establecimiento de <strong>límites claros</strong> ante demandas excesivas</p>
+        <p>• <strong>Autocuidado físico:</strong> sueño reparador, alimentación adecuada y actividad física (Extremera & Fernández-Berrocal, 2014).</p>
+      </div>
+      <div class="content-card card-rose">
+        <span class="subtag">3.3.2 · IE como Estilo de Vida</span>
+        <h4>Un camino permanente 🌸</h4>
+        <p>Al llegar al término de este proceso formativo, la inteligencia emocional debe consolidarse como un <strong>estilo de vida transitable y adaptativo</strong>.</p>
+        <p style="margin-top:8px;">Integrar esta habilidad implica aceptar la fluctuación natural de nuestras emociones sin juzgarlas, entendiendo que todas —incluso el enojo o la tristeza— poseen una <strong>función informativa y evolutiva vital</strong> (García-Allen, 2020).</p>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      "La persona emocionalmente inteligente desarrolla una autoeficacia percibida robusta que le permite encarar los imprevistos con resiliencia, transformando los entornos en espacios de crecimiento personal y relacional continuo." — García-Allen, 2020
+    </div>
+
+    <h2 class="section-title">Actividades del Módulo 📝</h2>
+    <div class="chips-row">
+      <span class="chip">📝 Actividad de Aprendizaje 1</span>
+      <span class="chip">📝 Actividad de Aprendizaje 2</span>
+      <span class="chip pink">🏆 Actividad de Cierre de Curso</span>
+    </div>
+
+    <div class="cards-grid" style="margin-top:36px">
+      <div class="nav-card" onclick="showPage('modulo2')"><div class="card-icon">💆</div><h3>← Módulo 2</h3><p>Regulación Emocional</p></div>
+      <div class="nav-card" onclick="showPage('referencias')"><div class="card-icon">📚</div><h3>Referencias →</h3><p>Fuentes bibliográficas</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ REFERENCIAS ═══ -->
+<div class="page" id="page-referencias">
+  <div class="banner banner-refs" data-emoji="📚">
+    <div class="banner-tag">Bibliografía</div>
+    <h1>Referencias</h1>
+    <p>Fuentes bibliográficas utilizadas en el desarrollo del taller.</p>
+  </div>
+  <div class="content">
+    <div class="welcome-box">
+      <h2>Referencias bibliográficas 📖</h2>
+      <p>Arrabal Martín, E. M. (2018). <em>Inteligencia emocional.</em> Editorial Elearning.</p><br>
+      <p>Bisquerra, R. (2009). <em>Psicopedagogía de las emociones.</em> Editorial Síntesis.</p><br>
+      <p>Extremera, N., & Fernández-Berrocal, P. (2014). <em>Inteligencia emocional, salud y felicidad.</em> Editorial Kairós.</p><br>
+      <p>García-Allen, J. (2020). <em>Psicología de la emoción: El camino hacia el bienestar integral.</em> Ediciones Paidós.</p><br>
+      <p>García-López, L. J. (2018). <em>Habilidades de comunicación interpersonal: Teoría y práctica de la escucha activa.</em> Editorial Pirámide.</p><br>
+      <p>Goleman, D. (1995). <em>Inteligencia emocional.</em> Kairós.</p><br>
+      <p>Gross, J. J. (Ed.). (2014). <em>Handbook of emotion regulation</em> (2nd ed.). The Guilford Press.</p><br>
+      <p>López, N. B., Filippetti, V. A., & Richaud, M. C. (2014). Empatía cognitiva y afectiva en la niñez y adolescencia. <em>Revista de Psicología de la Universidad de Chile, 23</em>(1), 31–41.</p><br>
+      <p>Naranjo Pereira, M. L. (2008). Relaciones interpersonales adecuadas mediante una comunicación y conducta asertivas. <em>Revista Electrónica Actualidades Investigativas en Educación, 8</em>(1), 1–27.</p><br>
+      <p>Redorta, J. (2007). <em>Cómo gestionar el conflicto: Habilidades directivas.</em> Editorial UOC.</p><br>
+      <p>Rosenberg, M. B. (2013). <em>Comunicación no violenta: un lenguaje de vida.</em> Granica.</p>
+    </div>
+
+    <span class="section-label">Videos de apoyo</span>
+    <h2 class="section-title">Material multimedia 🎬</h2>
+    <a href="https://www.youtube.com/watch?v=KvpsjJOpPoQ" target="_blank" class="video-link-btn"><span class="vplay">▶</span><span>Video de apertura — Inteligencia Emocional</span></a>
+    <a href="https://www.youtube.com/watch?v=vkhmTQ1PFbo" target="_blank" class="video-link-btn"><span class="vplay">▶</span><span>Módulo 1 — Inteligencia Emocional (Talent CH)</span></a>
+    <a href="https://youtu.be/F76OyeVLF64" target="_blank" class="video-link-btn"><span class="vplay">▶</span><span>Módulo 2 — Tres formas de controlar tus emociones (Mariano Sigman / BBVA)</span></a>
+    <a href="https://youtu.be/WbWQe6-74OY" target="_blank" class="video-link-btn"><span class="vplay">▶</span><span>Módulo 3a — Escucha Activa</span></a>
+    <a href="https://youtu.be/ZgmSfdE2y-s" target="_blank" class="video-link-btn"><span class="vplay">▶</span><span>Módulo 3b — Comunicación Emocional</span></a>
+    <a href="https://youtu.be/gyH3lJfxC9U" target="_blank" class="video-link-btn"><span class="vplay">▶</span><span>Módulo 3c — Resolución de Conflictos</span></a>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <strong>Inteligencia Emocional Aplicada al Entorno Diario</strong> 🌸 2026<br>
+  Aurora Carrillo García &nbsp;·&nbsp; Ivonne Zaireth Soteno Mejia &nbsp;·&nbsp; Danna Guadalupe Mendoza Hernández
+</footer>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  window.scrollTo(0,0);
+  document.getElementById('sidebar').classList.remove('open');
+}
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+</script>
+</body>
+</html>
