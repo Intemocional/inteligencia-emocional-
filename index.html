@@ -288,6 +288,24 @@ body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--tex
   font-style:italic; font-size:0.91rem; color:var(--text-soft); line-height:1.8;
 }
 
+/* ── ACTIVITY BUTTONS ── */
+.activity-btn {
+  display:inline-flex; align-items:center; gap:10px;
+  background:linear-gradient(135deg,var(--pink),var(--pink-deep));
+  color:white; text-decoration:none; border-radius:12px;
+  padding:12px 22px; font-size:0.88rem; font-weight:700;
+  margin:6px 6px 6px 0; transition:all 0.2s;
+  box-shadow:0 4px 14px rgba(244,140,190,0.35);
+}
+.activity-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(244,140,190,0.45); }
+.activity-btn.diag { background:linear-gradient(135deg,#fdd9c0,#f7b89a); color:var(--text); box-shadow:0 4px 14px rgba(247,184,154,0.35); }
+.activity-btn.diag:hover { box-shadow:0 6px 20px rgba(247,184,154,0.5); }
+.activity-btn.cierre { background:linear-gradient(135deg,var(--mint),var(--mint-deep)); color:var(--text); box-shadow:0 4px 14px rgba(125,217,176,0.35); }
+.activity-btn.cierre:hover { box-shadow:0 6px 20px rgba(125,217,176,0.5); }
+.activity-btn.join { background:linear-gradient(135deg,#4285f4,#1a73e8); color:white; box-shadow:0 4px 14px rgba(66,133,244,0.35); font-size:0.95rem; padding:14px 28px; }
+.activity-btn.join:hover { box-shadow:0 6px 20px rgba(66,133,244,0.5); }
+.activity-btns-row { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0; }
+
 /* ── FOOTER ── */
 .site-footer {
   margin-left:var(--sidebar-w); background:var(--rose);
@@ -382,9 +400,17 @@ body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--tex
       <span><strong>Video introductorio</strong> — Inteligencia Emocional</span>
     </a>
 
+    <div style="background:linear-gradient(135deg,#e8f0fe,#d2e3fc);border:1.5px solid #4285f4;border-radius:16px;padding:24px 28px;margin:28px 0;">
+      <h2 style="font-family:'Lora',serif;color:#1a73e8;margin-bottom:8px;">🎓 Únete al grupo de Classroom</h2>
+      <p style="color:#3c4043;font-size:0.91rem;margin-bottom:16px;line-height:1.7;">Para acceder a todas las actividades del taller, primero únete al grupo usando el siguiente botón. Usa el código <strong>qf3ywhxm</strong> si se te solicita.</p>
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1?cjc=qf3ywhxm" target="_blank" class="activity-btn join">
+        🎓 Unirse al grupo en Google Classroom
+      </a>
+    </div>
+
     <h2 class="section-title">Evaluación Diagnóstica 📋</h2>
     <div class="info-block">
-      💡 Antes de comenzar con el contenido de los módulos, realiza la <strong>Evaluación Diagnóstica</strong> disponible en la plataforma. Esta evaluación nos permitirá conocer tus conocimientos previos sobre inteligencia emocional y adaptar mejor el proceso de aprendizaje.
+      💡 Antes de comenzar con el contenido de los módulos, realiza la <strong>Evaluación Diagnóstica</strong> disponible en la plataforma. La encontrarás dentro del Módulo 1.
     </div>
 
     <h2 class="section-title">Nuestro equipo 🌸</h2>
@@ -499,11 +525,11 @@ body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--tex
     </div>
 
     <h2 class="section-title">Actividades del Módulo 📝</h2>
-    <div class="chips-row">
-      <span class="chip pink">📋 Evaluación Diagnóstica</span>
-      <span class="chip">📝 Actividad de Aprendizaje 1</span>
-      <span class="chip">📝 Actividad de Aprendizaje 2</span>
-      <span class="chip mint">✅ Cierre de Módulo</span>
+    <div class="activity-btns-row">
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTU4NzYxMjQy/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn diag">📋 Evaluación Diagnóstica</a>
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTYzMTY3MTMx/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn">📝 Actividad 1</a>
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTY0OTE4NTg2/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn">📝 Actividad 2</a>
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTY2MjkzMzU0/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn cierre">✅ Cierre de Módulo</a>
     </div>
 
     <div class="cards-grid" style="margin-top:36px">
@@ -584,10 +610,10 @@ body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--tex
     </div>
 
     <h2 class="section-title">Actividades del Módulo 📝</h2>
-    <div class="chips-row">
-      <span class="chip">📝 Actividad de Aprendizaje 1</span>
-      <span class="chip">📝 Actividad de Aprendizaje 2</span>
-      <span class="chip mint">✅ Cierre de Módulo</span>
+    <div class="activity-btns-row">
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTY4MjkyMDE0/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn">📝 Actividad 1</a>
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTY4MzIzOTIx/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn">📝 Actividad 2</a>
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTY3OTUxNjUx/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn cierre">✅ Cierre de Módulo</a>
     </div>
 
     <div class="cards-grid" style="margin-top:36px">
@@ -596,8 +622,6 @@ body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--tex
     </div>
   </div>
 </div>
-
-<!-- ═══ MÓDULO 3 ═══ -->
 <div class="page" id="page-modulo3">
   <div class="banner banner-mod3" data-emoji="🤝">
     <span class="mod-big-num">3</span>
@@ -690,10 +714,10 @@ body { font-family:'Nunito',sans-serif; background:var(--cream); color:var(--tex
     </div>
 
     <h2 class="section-title">Actividades del Módulo 📝</h2>
-    <div class="chips-row">
-      <span class="chip">📝 Actividad de Aprendizaje 1</span>
-      <span class="chip">📝 Actividad de Aprendizaje 2</span>
-      <span class="chip pink">🏆 Actividad de Cierre de Curso</span>
+    <div class="activity-btns-row">
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTY3MDg0NDc5/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn">📝 Actividad 1</a>
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTY4ODUxODYx/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn">📝 Actividad 2</a>
+      <a href="https://classroom.google.com/c/ODY2MTU0MzU0MzY1/a/ODY2MTY5ODIyMzY5/submissions/by-status/and-sort-name/all/all" target="_blank" class="activity-btn cierre">🏆 Cierre de Curso</a>
     </div>
 
     <div class="cards-grid" style="margin-top:36px">
